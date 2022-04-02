@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format2.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="2">
+  <name>example_action</name>
+  <version>0.0.0</version>
+  <description>minimal action server example</description>
+  <maintainer email="griswald.brooks@gmail.com">Griswald Brooks</maintainer>
+  <author email="griswald.brooks@gmail.com">Griswald Brooks</author>
+  <license>MIT</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>example_interfaces</depend>
+  <depend>repo_cmake</depend>
+  <depend>rclcpp</depend>
+  <depend>rclcpp_action</depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
