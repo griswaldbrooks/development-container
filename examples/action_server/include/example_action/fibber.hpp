@@ -40,7 +40,7 @@ struct Fibber {
 
  private:
   std::unique_ptr<RclHandle> mw_;
-std::atomic<bool> running_ = false;
+  std::atomic<bool> running_ = false;
   rclcpp_action::GoalResponse handle_goal(
       rclcpp_action::GoalUUID const&,
       std::shared_ptr<Fibonacci::Goal const> goal);
