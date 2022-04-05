@@ -88,7 +88,7 @@ window on the host.
 ```
 username@development-container-dev:~/ws/src$ rviz2
 ```
-![Rviz2](images/rviz2.png)
+![Rviz2](doc/images/rviz2.png)
 
 #### Editing
 As the repository source is volume mapped into the container, it can be edited
