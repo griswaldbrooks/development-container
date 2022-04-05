@@ -69,9 +69,7 @@ $(function() {
 <div class="textblock"><p>The development container allows developers to sandbox repository dependencies from their host machine while allowing them to use familiar development tools.</p>
 <h1><a class="anchor" id="autotoc_md1"></a>
 TL;DR</h1>
-<p>Clone repo </p><div class="fragment"><div class="line">git clone git@github.com:griswaldbrooks/development-container.git</div>
-<div class="line">cd development-container</div>
-</div><!-- fragment --><p>Build a new development image </p><div class="fragment"><div class="line">mkdir -p ~/.development-container/ccache</div>
+<p>Build a new development image </p><div class="fragment"><div class="line">mkdir -p ~/.development-container/ccache</div>
 <div class="line">export UIDGID=$(id -u):$(id -g)</div>
 <div class="line">docker compose -f compose.dev.yml build</div>
 </div><!-- fragment --><p>Start an interactive development container </p><div class="fragment"><div class="line">docker compose -f compose.dev.yml run development</div>
