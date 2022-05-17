@@ -15,8 +15,8 @@ RUN if [ -z "$USER" ]; then echo '\nERROR: USER not set. Run \n\n \texport USER=
 ARG DEBIAN_FRONTEND=noninteractive
 
 # install development tools
-RUN apt-get update \
-    && apt-get install -q -y --no-install-recommends \
+RUN apt update \
+    && apt install -q -y --no-install-recommends \
         apt-utils \
         ccache \
         clang-10 \
@@ -49,7 +49,7 @@ COPY upstream.repos .
 RUN mkdir src \
     && vcs import src < upstream.repos \
     && . /opt/ros/${ROS_DISTRO}/setup.sh \
-    && rosdep update && apt-get update \
+    && rosdep update && apt update \
     && rosdep install -q -y \
         --from-paths src \
         --ignore-src \
@@ -63,12 +63,15 @@ WORKDIR /ws
 COPY . ./src/${REPO}
 # install repo dependencies
 RUN . /opt/upstream/install/setup.sh \
-    && rosdep update && apt-get update \
+    && rosdep update && apt update \
     && rosdep install -q -y \
         --from-paths src \
         --ignore-src \
         --rosdistro ${ROS_DISTRO} \
     && rm -rf /var/lib/apt/lists/*
+
+RUN apt update && apt upgrade -y
+
 # check that the repo builds and then clear it out
 RUN . /opt/upstream/install/setup.sh \
     && colcon build --mixin release lld \
