@@ -186,7 +186,7 @@ While developing a tool on top of another tool can come with challenges,
 some may prefer to at least have some simple aliases to reduce the typing boilerplate.
 ```shell
 alias builddev="export UIDGID=$(id -u):$(id -g); docker compose -f compose.dev.yml build"
-alias rundev="docker compose -f compose.dev.yml run development"
+alias rundev="export UIDGID=$(id -u):$(id -g); docker compose -f compose.dev.yml run development"
 ```
 
 As an aside, a handy way to find a previous command is
