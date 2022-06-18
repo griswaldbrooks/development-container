@@ -1,6 +1,7 @@
 # syntax=docker/dockerfile:1
 ARG ROS_DISTRO="galactic"
-FROM ros:${ROS_DISTRO}-ros-base
+FROM ros:${ROS_DISTRO}-ros-base AS base
+LABEL org.opencontainers.image.source https://github.com/griswaldbrooks/development-container
 # Restate for later use
 ARG ROS_DISTRO
 ARG UIDGID
@@ -58,6 +59,7 @@ RUN mkdir src \
     && colcon build --mixin release lld \
     && rm -rf build log src upstream.repos
 
+FROM base AS development
 # copy source to install repo dependencies
 WORKDIR /ws
 COPY . ./src/${REPO}
