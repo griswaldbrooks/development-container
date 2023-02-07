@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['rclhandle_58',['RclHandle',['../structRclHandle.html#afca8852c269fd1d3135d0949c392788c',1,'RclHandle']]],
-  ['register_5fhandles_59',['register_handles',['../structFibber_1_1RclHandle.html#a7116415519545be18ec5fec56c92f212',1,'Fibber::RclHandle::register_handles()'],['../structRclHandle.html#af6631e069fdc3f5a179ff39969560c2d',1,'RclHandle::register_handles()']]]
+  ['sleep_49',['sleep',['../structFibber_1_1RclHandle.html#ad363a2d56299c337b48798c049c3211e',1,'Fibber::RclHandle::sleep()'],['../structRclHandle.html#a48e54cff960cfde834d095c5d06cb642',1,'RclHandle::sleep()']]],
+  ['succeed_50',['succeed',['../structFibber_1_1RclHandle.html#af865ab43fcddc771e0c98e01441a65af',1,'Fibber::RclHandle::succeed()'],['../structRclHandle.html#a8c3c48915572bb86baa4e5a72dfe8452',1,'RclHandle::succeed()']]]
 ];

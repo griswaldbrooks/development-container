@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['is_5fcanceling_53',['is_canceling',['../structFibber_1_1RclHandle.html#a18c3333d6bd034b74d65446d5b5b545c',1,'Fibber::RclHandle::is_canceling()'],['../structRclHandle.html#a4f57f6ff7503482851cf8d64f46d5496',1,'RclHandle::is_canceling()']]]
+  ['log_43',['log',['../structFibber_1_1RclHandle.html#a9b374ed4312085b580cef9a533249149',1,'Fibber::RclHandle::log()'],['../structRclHandle.html#a2d025eb8ea5d2c2d37aa90080536b1a3',1,'RclHandle::log()']]]
 ];

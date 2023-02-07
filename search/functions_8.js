@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['publish_5ffeedback_57',['publish_feedback',['../structFibber_1_1RclHandle.html#a3903efacd6a983f9c6689f154878b90c',1,'Fibber::RclHandle::publish_feedback()'],['../structRclHandle.html#a95d56056e09781fa2aab03af3e1c01df',1,'RclHandle::publish_feedback()']]]
+  ['rclhandle_47',['RclHandle',['../structRclHandle.html#afca8852c269fd1d3135d0949c392788c',1,'RclHandle']]],
+  ['register_5fhandles_48',['register_handles',['../structFibber_1_1RclHandle.html#a7116415519545be18ec5fec56c92f212',1,'Fibber::RclHandle::register_handles()'],['../structRclHandle.html#af6631e069fdc3f5a179ff39969560c2d',1,'RclHandle::register_handles()']]]
 ];
