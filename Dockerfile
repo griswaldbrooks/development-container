@@ -13,6 +13,7 @@ RUN --mount=type=cache,target=/var/cache/apt,id=apt \
     apt-get update && apt-get upgrade -y \
     && apt install -q -y --no-install-recommends \
         build-essential \
+        ccache \
         cmake \
         lld \
     && rm -rf /var/lib/apt/lists/*
@@ -61,7 +62,6 @@ RUN if [ -z "$USER" ]; then echo '\nERROR: USER not set. Run \n\n \texport USER=
 RUN --mount=type=cache,target=/var/cache/apt,id=apt \
     apt-get update && apt-get upgrade -y \
     && apt install -q -y --no-install-recommends \
-        ccache \
         clang-14 \
         clang-format-14 \
         clang-tidy-14 \
