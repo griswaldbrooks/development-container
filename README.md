@@ -35,7 +35,7 @@ to collaboratively troubleshoot issues.
 #### Rebuilding image
 As repository dependencies change, the development image will have to be rebuilt.
 While early on this can happen frequently, dependencies tend to change more slowly later in a project.
-Unless otherwise noted, it is a good habit to update your image once a sprint.
+Unless otherwise noted, it is a good habit to update your image weekly.
 
 #### <a id="ccache"></a> ccache
 `ccache` allows previous builds to speed up future builds. As the container is
@@ -74,7 +74,7 @@ core.repositoryformatversion=0
 core.filemode=true
 core.bare=false
 core.logallrefupdates=true
-remote.origin.url=git@github.com:griswaldbrooks/development-container.git
+remote.origin.url=git@github.com:username/development-container.git
 remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
 branch.main.remote=origin
 branch.main.merge=refs/heads/main
@@ -171,21 +171,12 @@ chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
 docker compose version
 ```
 
-## nvidia-docker
-TODO: It is unconfirmed if `nvidia-docker` is required on hosts with nvidia gpus.
-Currently, `rviz2` has been tested with
-- `nvidia-docker` and nvidia gpu
-- no `nvidia-docker` and intel gpu
-and it produced comparable frame rates to the host.
-There is also a question if this is obviated by installing the gpu driver
-in the container and if that is best practice.
-
 # Alias
 While developing a tool on top of another tool can come with challenges,
 some may prefer to at least have some simple aliases to reduce the typing boilerplate.
 ```shell
-alias builddev="export UIDGID=$(id -u):$(id -g); docker compose -f compose.dev.yml build"
-alias rundev="export UIDGID=$(id -u):$(id -g); docker compose -f compose.dev.yml run development"
+alias builddev="export UID=$(id -u) export GID=$(id -g); docker compose -f compose.dev.yml build"
+alias rundev="docker compose -f compose.dev.yml run development"
 ```
 
 As an aside, a handy way to find a previous command is
