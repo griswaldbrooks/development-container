@@ -1,53 +1,27 @@
-# syntax=docker/dockerfile:1
-ARG ROS_DISTRO="galactic"
-FROM ros:${ROS_DISTRO}-ros-base AS base
-LABEL org.opencontainers.image.source https://github.com/griswaldbrooks/development-container
+# syntax=docker/dockerfile:1.2
+ARG ROS_DISTRO="rolling"
+FROM ros:${ROS_DISTRO}-ros-base AS upstream
 # Restate for later use
 ARG ROS_DISTRO
-ARG UIDGID
-ARG USER
 ARG REPO
-
-# fail build if args are missing
-RUN if [ -z "$UIDGID" ]; then echo '\nERROR: UIDGID not set. Run \n\n \texport UIDGID=$(id -u):$(id -g) \n\n on host before building Dockerfile.\n'; exit 1; fi
-RUN if [ -z "$USER" ]; then echo '\nERROR: USER not set. Run \n\n \texport USER=$(whoami) \n\n on host before building Dockerfile.\n'; exit 1; fi
 
 # prevent interactive messages in apt install
 ARG DEBIAN_FRONTEND=noninteractive
 
-# install development tools
-RUN apt update \
+# install build dependencies
+RUN --mount=type=cache,target=/var/cache/apt,id=apt \
+    apt-get update && apt-get upgrade -y \
     && apt install -q -y --no-install-recommends \
-        apt-utils \
-        ccache \
-        clang-10 \
-        clang-format \
-        clang-tidy \
+        build-essential \
         cmake \
-        git \
         lld \
-        llvm-10 \
-        python3-colcon-common-extensions \
-        python3-colcon-mixin \
-        python3-pip \
-        vim \
-        wget \
-        ssh-client \
     && rm -rf /var/lib/apt/lists/*
-
-# install some pip packages needed for testing
-RUN python3 -m pip install -U \
-    pre-commit
-
-# setup mixin and update it
-COPY infrastructure/colcon-mixin /opt/colcon-mixin
-RUN colcon mixin add ${REPO} file:///opt/colcon-mixin/index.yaml \
-    && colcon mixin update
 
 # build source dependencies
 WORKDIR /opt/upstream
 COPY upstream.repos .
-RUN mkdir src \
+RUN --mount=type=cache,target=/var/cache/apt,id=apt \
+    mkdir src \
     && vcs import src < upstream.repos \
     && . /opt/ros/${ROS_DISTRO}/setup.sh \
     && rosdep update && apt update \
@@ -59,12 +33,13 @@ RUN mkdir src \
     && colcon build --mixin release lld \
     && rm -rf build log src upstream.repos
 
-FROM base AS development
 # copy source to install repo dependencies
-WORKDIR /ws
+WORKDIR /opt/ws
 COPY . ./src/${REPO}
+
 # install repo dependencies
-RUN . /opt/upstream/install/setup.sh \
+RUN --mount=type=cache,target=/var/cache/apt,id=apt \
+    . /opt/upstream/install/setup.sh \
     && rosdep update && apt update \
     && rosdep install -q -y \
         --from-paths src \
@@ -72,12 +47,52 @@ RUN . /opt/upstream/install/setup.sh \
         --rosdistro ${ROS_DISTRO} \
     && rm -rf /var/lib/apt/lists/*
 
-RUN apt update && apt upgrade -y
+FROM upstream AS development
 
-# check that the repo builds and then clear it out
-RUN . /opt/upstream/install/setup.sh \
-    && colcon build --mixin release lld \
-    && rm -rf /ws
+ARG UID
+ARG GID
+ARG USER
 
-# chown working directory to user
-RUN mkdir -p /home/${USER}/ws && chown -R ${UIDGID} /home/${USER}
+# fail build if args are missing
+RUN if [ -z "$UID" ]; then echo '\nERROR: UID not set. Run \n\n \texport UID=$(id -u) \n\n on host before building Dockerfile.\n'; exit 1; fi
+RUN if [ -z "$GID" ]; then echo '\nERROR: GID not set. Run \n\n \texport GID=$(id -g) \n\n on host before building Dockerfile.\n'; exit 1; fi
+RUN if [ -z "$USER" ]; then echo '\nERROR: USER not set. Run \n\n \texport USER=$(whoami) \n\n on host before building Dockerfile.\n'; exit 1; fi
+
+RUN --mount=type=cache,target=/var/cache/apt,id=apt \
+    apt-get update && apt-get upgrade -y \
+    && apt install -q -y --no-install-recommends \
+        ccache \
+        clang-14 \
+        clang-format-14 \
+        clang-tidy-14 \
+        git \
+	openssh-client \
+        python3-colcon-common-extensions \
+        python3-colcon-mixin \
+        python3-pip \
+        vim \
+        wget \
+    && rm -rf /var/lib/apt/lists/*
+
+# install developer tools
+RUN python3 -m pip install -U \
+    pre-commit
+
+# Setup user home directory
+# --no-log-init helps with excessively long UIDs
+RUN groupadd --gid $GID $USER \
+    && useradd --no-log-init --uid $GID --gid $UID -m $USER --groups sudo \
+    && echo $USER ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USER \
+    && chmod 0440 /etc/sudoers.d/$USER \
+    && echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> /home/${USER}/.profile \
+    && touch /home/${USER}/.bashrc \
+    && chown -R ${GID}:${UID} /home/${USER}
+
+USER $USER
+ENV SHELL /bin/bash
+ENTRYPOINT []
+
+# Setup mixin
+WORKDIR /home/${USER}/ws
+RUN colcon mixin add default https://raw.githubusercontent.com/colcon/colcon-mixin-repository/master/index.yaml \
+    && colcon mixin update default

@@ -1,0 +1,4 @@
+Dockerfile
+compose.dev.yml
+.git
+*.md

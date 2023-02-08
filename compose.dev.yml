@@ -4,16 +4,13 @@ services:
   development:
     build:
       args:
-        UIDGID: ${UIDGID}
+        UID: ${UID}
+        GID: ${GID}
         USER: ${USER}
         REPO: ${REPO}
       context: .
       dockerfile: Dockerfile
     command: bash -c "source /opt/upstream/install/setup.sh &&
-                      colcon mixin add default https://raw.githubusercontent.com/colcon/colcon-mixin-repository/master/index.yaml &&
-                      colcon mixin add ${REPO} file:///opt/colcon-mixin/index.yaml &&
-                      colcon mixin update &&
-                      export PATH="/usr/lib/ccache:$PATH" &&
                       bash"
     container_name: ${USER}-${REPO}-dev
     environment:
@@ -27,8 +24,8 @@ services:
     image: ${REPO}-dev:latest
     network_mode: host
     privileged: true
-    user: ${UIDGID}
     volumes:
+      - /dev:/dev
       - ~/.ssh:${HOME}/.ssh:ro
       - ~/.gitconfig:${HOME}/.gitconfig:ro
       - ${PWD}:${HOME}/ws/src/${REPO}

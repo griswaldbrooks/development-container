@@ -6,8 +6,7 @@ from their host machine while allowing them to use familiar development tools.
 Build a new development image
 ```
 mkdir -p ~/.development-container/ccache
-export UIDGID=$(id -u):$(id -g)
-docker compose -f compose.dev.yml build
+export UID=$(id -u) export GID=$(id -g); docker compose -f compose.dev.yml build
 ```
 Start an interactive development container
 ```
