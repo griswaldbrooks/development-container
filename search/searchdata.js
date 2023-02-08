@@ -5,8 +5,7 @@ var indexSectionsWithContent =
   2: "d",
   3: "dfnr",
   4: "cfgilmoprs~",
-  5: "acfg",
-  6: "d"
+  5: "acfg"
 };
 
 var indexSectionNames =
@@ -16,8 +15,7 @@ var indexSectionNames =
   2: "namespaces",
   3: "files",
   4: "functions",
-  5: "typedefs",
-  6: "pages"
+  5: "typedefs"
 };
 
 var indexSectionLabels =
@@ -27,7 +25,6 @@ var indexSectionLabels =
   2: "Namespaces",
   3: "Files",
   4: "Functions",
-  5: "Typedefs",
-  6: "Pages"
+  5: "Typedefs"
 };
 
