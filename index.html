@@ -83,7 +83,7 @@ Dependencies</h4>
 <p>Repository dependencies are built into the development image. This insulates the developer from potentially conflicting dependencies on their host while preventing development from accidentally depending on host packages and configurations. This uniform development environment should also make it easier for developers to collaboratively troubleshoot issues.</p>
 <h4><a class="anchor" id="autotoc_md4"></a>
 Rebuilding image</h4>
-<p>As repository dependencies change, the development image will have to be rebuilt. While early on this can happen frequently, dependencies tend to change more slowly later in a project. Unless otherwise noted, it is a good habit to update your image once a sprint.</p>
+<p>As repository dependencies change, the development image will have to be rebuilt. While early on this can happen frequently, dependencies tend to change more slowly later in a project. Unless otherwise noted, it is a good habit to update your image weekly.</p>
 <h4><a class="anchor" id="autotoc_md5"></a>
 &lt;a id="ccache"&gt;&lt;/a&gt; ccache</h4>
 <p><code>ccache</code> allows previous builds to speed up future builds. As the container is not persistent, we need to map the cache to the host so it can be reused in subsequent instantiations of the container. On the host, create the cache directory </p><div class="fragment"><div class="line">mkdir -p ~/.development-container/ccache</div>
@@ -113,7 +113,7 @@ git</h4>
 <div class="line">core.filemode=true</div>
 <div class="line">core.bare=false</div>
 <div class="line">core.logallrefupdates=true</div>
-<div class="line">remote.origin.url=git@github.com:griswaldbrooks/development-container.git</div>
+<div class="line">remote.origin.url=git@github.com:username/development-container.git</div>
 <div class="line">remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*</div>
 <div class="line">branch.main.remote=origin</div>
 <div class="line">branch.main.merge=refs/heads/main</div>
@@ -186,21 +186,15 @@ Apply permissions</h4>
 </div><!-- fragment --><h4><a class="anchor" id="autotoc_md18"></a>
 Test</h4>
 <div class="fragment"><div class="line">docker compose version</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md19"></a>
-nvidia-docker</h2>
-<p>TODO: It is unconfirmed if <code>nvidia-docker</code> is required on hosts with nvidia gpus. Currently, <code>rviz2</code> has been tested with</p><ul>
-<li><code>nvidia-docker</code> and nvidia gpu</li>
-<li>no <code>nvidia-docker</code> and intel gpu and it produced comparable frame rates to the host. There is also a question if this is obviated by installing the gpu driver in the container and if that is best practice.</li>
-</ul>
-<h1><a class="anchor" id="autotoc_md20"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md19"></a>
 Alias</h1>
-<p>While developing a tool on top of another tool can come with challenges, some may prefer to at least have some simple aliases to reduce the typing boilerplate. </p><div class="fragment"><div class="line">alias builddev=&quot;export UIDGID=$(id -u):$(id -g); docker compose -f compose.dev.yml build&quot;</div>
-<div class="line">alias rundev=&quot;export UIDGID=$(id -u):$(id -g); docker compose -f compose.dev.yml run development&quot;</div>
+<p>While developing a tool on top of another tool can come with challenges, some may prefer to at least have some simple aliases to reduce the typing boilerplate. </p><div class="fragment"><div class="line">alias builddev=&quot;export UID=$(id -u) export GID=$(id -g); docker compose -f compose.dev.yml build&quot;</div>
+<div class="line">alias rundev=&quot;docker compose -f compose.dev.yml run development&quot;</div>
 </div><!-- fragment --><p>As an aside, a handy way to find a previous command is </p><div class="fragment"><div class="line">history | grep keyword</div>
 </div><!-- fragment --><p> to rerun the command using the offset number given from <code>history</code> </p><div class="fragment"><div class="line">!offsetnumber</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md21"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md20"></a>
 Troubleshooting</h1>
-<h4><a class="anchor" id="autotoc_md22"></a>
+<h4><a class="anchor" id="autotoc_md21"></a>
 ccache cannot compile</h4>
 <div class="fragment"><div class="line">&quot;/usr/lib/ccache/cc&quot;</div>
 <div class="line"> </div>
