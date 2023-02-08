@@ -1,5 +1,8 @@
-![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/griswaldbrooks/development-container/ci/main?label=ci)
-![GitHub](https://img.shields.io/github/license/griswaldbrooks/development-container)
+[![ci](https://github.com/griswaldbrooks/development-container/actions/workflows/ci.yaml/badge.svg)](https://github.com/griswaldbrooks/development-container/actions/workflows/ci.yaml)
+[![docker](https://github.com/griswaldbrooks/development-container/actions/workflows/docker.yaml/badge.svg)](https://github.com/griswaldbrooks/development-container/actions/workflows/docker.yaml)
+[![doxygen](https://github.com/griswaldbrooks/development-container/actions/workflows/doxygen.yaml/badge.svg)](https://github.com/griswaldbrooks/development-container/actions/workflows/doxygen.yaml)
+[![format](https://github.com/griswaldbrooks/development-container/actions/workflows/format.yaml/badge.svg)](https://github.com/griswaldbrooks/development-container/actions/workflows/format.yaml)
+![license](https://img.shields.io/github/license/griswaldbrooks/development-container)
 
 # development-container
 The development container allows developers to sandbox repository dependencies
