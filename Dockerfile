@@ -15,7 +15,12 @@ RUN --mount=type=cache,target=/var/cache/apt,id=apt \
         build-essential \
         ccache \
         cmake \
+	lcov \
         lld \
+        python3-colcon-common-extensions \
+	python3-colcon-lcov-result \
+        python3-colcon-coveragepy-result \
+        python3-colcon-mixin \
     && rm -rf /var/lib/apt/lists/*
 
 # build source dependencies
@@ -67,8 +72,6 @@ RUN --mount=type=cache,target=/var/cache/apt,id=apt \
         clang-tidy-14 \
         git \
 	openssh-client \
-        python3-colcon-common-extensions \
-        python3-colcon-mixin \
         python3-pip \
         vim \
         wget \
