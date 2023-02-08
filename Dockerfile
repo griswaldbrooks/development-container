@@ -11,7 +11,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 # install build dependencies
 RUN --mount=type=cache,target=/var/cache/apt,id=apt \
     apt-get update && apt-get upgrade -y \
-    && apt install -q -y --no-install-recommends \
+    && apt-get install -q -y --no-install-recommends \
         build-essential \
         ccache \
         cmake \
@@ -30,7 +30,7 @@ RUN --mount=type=cache,target=/var/cache/apt,id=apt \
     mkdir src \
     && vcs import src < upstream.repos \
     && . /opt/ros/${ROS_DISTRO}/setup.sh \
-    && rosdep update && apt update \
+    && rosdep update && apt-get update \
     && rosdep install -q -y \
         --from-paths src \
         --ignore-src \
@@ -46,7 +46,7 @@ COPY . ./src/${REPO}
 # install repo dependencies
 RUN --mount=type=cache,target=/var/cache/apt,id=apt \
     . /opt/upstream/install/setup.sh \
-    && rosdep update && apt update \
+    && rosdep update && apt-get update \
     && rosdep install -q -y \
         --from-paths src \
         --ignore-src \
@@ -60,13 +60,16 @@ ARG GID
 ARG USER
 
 # fail build if args are missing
+# hadolint ignore=SC2028
 RUN if [ -z "$UID" ]; then echo '\nERROR: UID not set. Run \n\n \texport UID=$(id -u) \n\n on host before building Dockerfile.\n'; exit 1; fi
+# hadolint ignore=SC2028
 RUN if [ -z "$GID" ]; then echo '\nERROR: GID not set. Run \n\n \texport GID=$(id -g) \n\n on host before building Dockerfile.\n'; exit 1; fi
+# hadolint ignore=SC2028
 RUN if [ -z "$USER" ]; then echo '\nERROR: USER not set. Run \n\n \texport USER=$(whoami) \n\n on host before building Dockerfile.\n'; exit 1; fi
 
 RUN --mount=type=cache,target=/var/cache/apt,id=apt \
     apt-get update && apt-get upgrade -y \
-    && apt install -q -y --no-install-recommends \
+    && apt-get install -q -y --no-install-recommends \
         clang-14 \
         clang-format-14 \
         clang-tidy-14 \
@@ -78,8 +81,8 @@ RUN --mount=type=cache,target=/var/cache/apt,id=apt \
     && rm -rf /var/lib/apt/lists/*
 
 # install developer tools
-RUN python3 -m pip install -U \
-    pre-commit
+RUN python3 -m pip install --no-cache-dir \
+    pre-commit==3.0.4
 
 # Setup user home directory
 # --no-log-init helps with excessively long UIDs
