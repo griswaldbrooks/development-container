@@ -1,3 +1,6 @@
+![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/griswaldbrooks/development-container/ci/main?label=ci)
+![GitHub](https://img.shields.io/github/license/griswaldbrooks/development-container)
+
 # development-container
 The development container allows developers to sandbox repository dependencies
 from their host machine while allowing them to use familiar development tools.
