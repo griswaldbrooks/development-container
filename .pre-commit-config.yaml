@@ -28,10 +28,12 @@ repos:
       - id: check-json
       - id: check-executables-have-shebangs
       - id: pretty-format-json
+        args: ['--no-sort-keys', '--autofix']
       - id: check-merge-conflict
       - id: check-symlinks
       - id: check-toml
       - id: check-vcs-permalinks
+      - id: check-xml
       - id: check-yaml
       - id: debug-statements
       - id: destroyed-symlinks
@@ -45,7 +47,6 @@ repos:
       - id: name-tests-test
       - id: no-commit-to-branch
       - id: requirements-txt-fixer
-      - id: sort-simple-yaml
       - id: trailing-whitespace
 
   - repo: https://github.com/psf/black
