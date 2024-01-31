@@ -87,12 +87,12 @@ RUN python3 -m pip install --no-cache-dir \
 # Setup user home directory
 # --no-log-init helps with excessively long UIDs
 RUN groupadd --gid $GID $USER \
-    && useradd --no-log-init --uid $GID --gid $UID -m $USER --groups sudo \
+    && useradd --no-log-init --uid $UID --gid $GID -m $USER --groups sudo \
     && echo $USER ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USER \
     && chmod 0440 /etc/sudoers.d/$USER \
     && echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> /home/${USER}/.profile \
     && touch /home/${USER}/.bashrc \
-    && chown -R ${GID}:${UID} /home/${USER}
+    && chown -R ${UID}:${GID} /home/${USER}
 
 USER $USER
 ENV SHELL /bin/bash
